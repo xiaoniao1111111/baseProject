@@ -1,0 +1,20 @@
+Robbin
+简述: 当我们Eureka集群,服务集群,然后具体访问那个Eureka,那个服务的时候,这时就要通过Robbin(负载均衡)
+      来告诉访问那个Eureka,那个服务
+负载均衡算法分为两种: 轮询,随机,默认使用的是轮询
+
+   步骤:
+   <1> 在客户端应用类里,获取RestTemplate对象方法上加上@LoadBalanced,表示开启负载均衡
+   <2> 在service方法中远程调用的请求路径改变,通过应用名称来请求
+       restTemplate.getForObject("http://user-service/user/" + id, User.class)
+
+2. 将负载均衡配置
+    在客户端的配置中加入以下配置:
+    # 这个是服务提供者的应用名称(服务名称)
+    user-server:
+      ribbon:
+        # 将负载均衡策略设置为随机
+        NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+        # Ribbon(负载均衡)超时配置
+        ConnectTimeout: 250 # Ribbon的连接超时时间(ms)
+        ReadTimeout: 1000 # Ribbon的数据读取超时时间(ms)

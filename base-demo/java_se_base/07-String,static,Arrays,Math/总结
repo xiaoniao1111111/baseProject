@@ -1,0 +1,14 @@
+String类
+1. String的四种构造方式
+无参构造 字节数组构造 字符数组构造 字符串构造
+sting,stringBuilder,stringBuffer区别
+<1> 执行速度
+stringBuilder > stringBuffer区别 > sting
+sring慢的原因:
+string在拼接的时候,jvm会首先创建一个新的同名对象,并将原来的值赋值给新的同名对象,
+然后和后面的字符串进行拼接,同时jvm通过垃圾回收机制把原来的对象进行回收,这样创建,回收则导致了速度变慢
+<2> 线程安全
+stringBuilder: 线程不安全,相对stringBuffer来说拼接快
+stringBuffer: 线程安全(大多数方法都有线程锁修饰),相对stringBuilder来说较慢
+原因: 在多线程中,同一时间都去访问该对象,第一个人在访问该对象的时候,另一个人也访问该对象则会被阻塞,除非第一个人访问完毕并释放锁才能
+被再次访问

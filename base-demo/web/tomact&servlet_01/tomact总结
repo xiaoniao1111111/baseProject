@@ -1,0 +1,64 @@
+Web
+简介: 万维网,通过网路来访问资源
+
+1. 软件架构模式
+    简述: 访问网路资源的方式
+<1> 以浏览器的方式访问网络资源,简称: B/S(Broswer/Server)
+<2> 以软件的方式访问网络资源,简称: C/S(Client/Server)
+
+2. B/S通信
+    简述: 浏览器发起请求服务器,服务器将结果响应返回给会浏览器,之间的请求和响应就是B/S通信
+
+3. WEB资源
+    简述: 通过客户端从网络中访问的资源叫做WEB资源,这些资源可以分为两种: 静态资源和动态资源
+
+4. WEB服务器
+    简述: 网站开发者需要将开发的web资源发布到对应的服务器上,客户才可以访问
+    常见的服务器:
+    tomact: 免费,开源  Weblogic  WebSphere  JBoss
+
+5. Url请求路径
+    简述: 访问资源的地址,网址
+    格式: 协议+IP地址/域名+端口号+路径+参数
+
+6. tomact服务器
+   简述: 服务器分为: 硬件服务器和软件服务器
+   硬件服务器: 用来存储和计算数据的,可以看成是一台主机或者服务器设备
+   软件服务器: 硬件服务器本身是一台设备,需要安装服务软件才能提供服务
+   服务器软件本身是由代码编写的,接受请求并根据请求返回响应数据给客户端
+   常见的软件服务器有:
+   Mysql服务器: 用来操作数据库的服务器
+   Nginx服务器: 用来发布静态WEB资源的服务器
+   Web服务器: 用来发布web资源的服务器(将数据库中获取到的数据返回给前端)
+
+7. tomact目录介绍
+    bin：脚本目录
+    	启动脚本：startup.bat
+    	停止脚本：shutdown.bat
+
+    conf：配置文件目录 (config /configuration)
+    	核心配置文件：server.xml
+    	用户权限配置文件：tomcat-users.xml
+    	所有web项目默认配置文件：web.xml
+
+    lib：依赖库，tomcat和web项目中需要使用的jar包
+
+    logs：日志文件.
+    	localhost_access_log..txt tomcat记录用户访问信息，..表示时间。
+    	例如：localhost_access_log.2017-04-28.txt
+
+    temp：临时文件目录，文件夹内内容可以任意删除。
+
+    webapps：默认情况下发布WEB项目所存放的目录。
+
+    work：tomcat处理JSP的工作目录。
+
+8. WEB项目发布到tomact服务器上的三种方式
+    <1> 直接发布
+    将整个项目直接复制到tomact安装目录-webapps文件中,启动Tomact,并访问路径下的资源
+    <2> 项目打成war包
+    打成war包,放到tomact安装目录-webapps文件中,启动tomact会直接解压这个war包,并访问路径下的资源
+    <3> idea配置tomact直接发布项目
+    在Run Configurations中，选择JRE: JDK版本。最后启动idea,并访问路径下的资源
+
+

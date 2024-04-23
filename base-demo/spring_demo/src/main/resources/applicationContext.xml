@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:cotext="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--bean: spring工厂创建的对象(通过反射机制)
+        id/name: 对象的名字,一般是类名或者更接口的名字
+        calss: 类的全路径-->
+    <bean id="userDao" class="com.spring.srping.service.serviceimpl.UserDaoImpl"/>
+
+    <!--DI依赖注入的实现: 通过配置文件,将一个bean注入到另一个bean中-->
+    <bean id="userService" class="com.spring.srping.service.serviceimpl.UserServiceImpl">
+        <!--property: 根据类中的set方法进行属性注入-->
+        <!--name: service类中setDao对象的set=后面的名称(首字母要小写)-->
+        <!--ref: 需要注入bean的id-->
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <!--实例化Bean的四种方式-->
+    <!--方式一: 无参构造器-->
+    <bean id="bean1" class="com.spring.srping.instanceBean.Bean1"/>
+
+    <!--方式二: 静态工厂方法-->
+    <bean id="bean2" class="com.spring.srping.instanceBean.Bean2Factory" factory-method="getBean2"/>
+
+    <!--方式三: 实例化工厂方法-->
+    <bean id="bean3Factory" class="com.spring.srping.instanceBean.Bean3Factory"/>
+    <bean id="bean3" factory-bean="bean3Factory" factory-method="getBean3"/>
+
+    <!--方式四: FactoryBean-->
+    <bean id="bean4" class="com.spring.srping.instanceBean.Bean4Factory"/>
+
+    <!--bean的作用域-->
+ <!--   &lt;!&ndash;单例&ndash;&gt;
+    <bean id="singletonBean" class="com.spring.srping.scope.SingletonBean"/>
+    &lt;!&ndash;多例&ndash;&gt;
+    <bean id="prototypeBean" class="com.spring.srping.scope.PrototypeBean" scope="prototype"/>-->
+
+    <!--bean的生命周期-->
+<!--    <bean class="com.spring.srping.lifeCycle.LifeCycleBean" id="lifeCycleBean" init-method="init"
+          destroy-method="distory"/>-->
+
+    <!--bean的属性注入-->
+    <!--方式一: 构造器-->
+    <bean class="com.spring.srping.properity.ConstructorBean" id="constructorBean">
+    <constructor-arg index="0" value="zhangsan"/>
+    <constructor-arg name="age" value="11"/>
+    <constructor-arg type="java.lang.Boolean" value="true"/>
+    </bean>
+
+    <!--方式二: set属性注入-->
+    <bean class="com.spring.srping.properity.ConstructorBean" id="setBean">
+        <property name="name" value="lisi"/>
+        <property name="age" value="12"/>
+        <property name="sex" value="false"/>
+    </bean>
+
+    <!--开启注解扫描(包含了开启使用注解的功能,如果不开启注解则使用不了,同时还可以省略开启注解功能的配置)-->
+    <context:component-scan base-package="com.spring"/>
+
+    <!--开启SpringAop代理机制
+    作用: 带有@Aspect的bean,则作为增强aop配置,完成功能增强
+    proxy-target-class="true": 将Spring代理方式设置为Cglib代理,默认使用的JDK动态代理
+    -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--引入外部资源-->
+    <cotext:property-placeholder location="classpath:jdbc.properties"/>
+    <!-- c3p0连接池 -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="${jdbc.driverClass}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+    <!-- jdbctemplate对象 -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <!-- 注入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="com.spring.srping.listener.HelloService" id="helloService"/>
+</beans>

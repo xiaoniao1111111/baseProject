@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--分页插件配置-->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <!-- 指定数据库 -->
+            <property name="helperDialect" value="mysql"/>
+            <!--分页合理化参数,pageNum<=0 时会查询第一页，pageNum>pages（超过总数时），会查询最后一页-->
+            <property name="reasonable" value="ture"/>
+            <!--多数据源自动识别对应方言的分页-->
+            <property name="autoRuntimeDialect" value="false"/>
+
+        </plugin>
+    </plugins>
+
+</configuration>
+
+

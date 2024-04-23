@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="javaSE中级:war">
+    <output-path>$PROJECT_DIR$/javaSE中级/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>javaSE中级</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="javaSE(中级).war">
+      <element id="artifact" artifact-name="javaSE中级:war exploded" />
+    </root>
+  </artifact>
+</component>

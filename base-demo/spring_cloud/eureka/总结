@@ -1,0 +1,74 @@
+Eureka
+简述: Eureka负责管理,记录提供者的信息,服务调用者无需寻找服务,只需要把需求告诉Eureka,Eureka会根据需求提供符合需求的服务,
+     实现了服务的自动注册,发现,状态监控
+原理:
+    Eureka: 就是服务的注册中心,对外暴露自己的地址
+    服务者: 向Eureka中注册自己的信息(地址,提供什么的服务)
+    调用者: 向Eureka提出需求,Eureka会根据需求提供相对应的服务列表,并定期更新
+    心跳机制: 服务者定时通过http方式向Eureka刷新自己的状态,若服务异常或关闭则Eureka将其该服务剔除
+
+1.步骤:
+    1. 建立Eureka服务
+        <1> 引入Eureka-server启动器
+        <2> application.yml中配置应用名,端口号,是否将自己注册到Eureka中
+        <3> 启动类中加入@EnableDiscoveryClient,表示可以被Eureka发现
+    2. 建立user-client服务
+        <1> 引入Eureka-client启动器
+        <2> application.yml中配置应用名,端口号,将自己服务注册到Eureka中
+        <3> 启动类中加入@EnableDiscoveryClient,表示可以被Eureka发现
+    3. 建立user-service服务
+        <1> 引入Eureka-client启动器
+        <2> application.yml中配置应用名,端口号,将自己服务注册到Eureka中
+        <3> 启动类中加入@EnableDiscoveryClient,表示可以被Eureka发现
+
+2. 改造客户端向服务端发起请求方式(通过Eureka方式获取)
+        <1> 在user-client端service中引入DiscoveryClient
+        <2>   获取服务列表
+              List<ServiceInstance> instances = discoveryClient.getInstances("user-server");
+              获取单个服务
+              ServiceInstance instance = instances.get(0);
+              获取IP地址
+              String hostName = instance.getHost();
+              获取端口号
+              int port = instance.getPort();
+        <3> 通过RestTemplate.getForObject发起请求
+
+3. Eureka集群
+   简述: 可以有多个Eureka,把多个Eureka注册到Eureka注册中心中
+   步骤:
+   <1> Eureka服务配置中: 将自己服务注册到Eureka注册中心中
+   <2> 客户端服务和服务端服务: 分别在配置中配置多个Eureka
+
+4. Eureka的心跳机制配置
+   在服务端中配置:
+  instance:
+    # 服务下次续约的间隔时间,默认为30秒 比如: 19:00:00 注册  下一次续约时间: 19:00:30(定期发起请求,刷新自己的状态)
+    lease-renewal-interval-in-seconds: 30
+    # 服务失效时间，默认值90秒,如果90秒还没有续约,那么这个服务将失效,获取不到信息,但在Eureka注册中心中并没有立即剔除
+    lease-expiration-duration-in-seconds: 90
+    # 设置Eureka注册列表中UP值(instance-id)
+    instance-id: ${spring.application.name}:${server.port}
+
+5. 客户端拉取服务列表配置
+    在客户端中配置
+    eureka:
+      client:
+        # 消费者拉取服务列表的时间 默认30秒拉取一次
+        registry-fetch-interval-seconds: 5
+
+6. Eureka失效剔除和自我保护配置
+   失效剔除:
+   有些时候，我们的服务提供方并不一定会正常下线，可能因为内存溢出、网络故障等原因导致服务无法正常工作。
+   Eureka Server需要将这样的服务剔除出服务列表。因此它会开启一个定时任务，每隔60秒对所有失效的服务
+   （超过90秒未响应）进行剔除。
+
+   自我保护:
+   Eureka会统计最近15分钟心跳失败的服务实例的比例是否超过了85%。在生产环境下，因为网络延迟等原因，
+   心跳失败实例的比例很有可能超标，但是此时就把服务剔除列表并不妥当，因为服务可能没有宕机。
+   Eureka就会把当前实例的注册信息保护起来，不予剔除。生产环境下这很有效，保证了大多数服务依然可用。
+
+    在Eureka中配置
+      # 服务失效剔除设置
+      server:
+        enable-self-preservation: false # 关闭自我保护模式(默认为打开)
+        eviction-interval-timer-in-ms: 1000 # 扫描失效服务的间隔时间（默认为为1分钟）

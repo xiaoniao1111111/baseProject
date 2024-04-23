@@ -1,0 +1,13 @@
+java基础变量类型:
+1.  java两大数据类型:
+    (1) 基本数据类型--四类八种
+    (2) 引用数据类型--对象、数组
+2.  java常量
+    java中使用final来修饰常量,声明方式和变量类型
+    eg: final String="hello";
+3.  实例变量
+    eg:   private  String name;  私有的       public int age; 公共的
+4.  类变量(静态变量)
+    被static修饰过的变量,在方法之外
+    eg: private static  String lulu;
+

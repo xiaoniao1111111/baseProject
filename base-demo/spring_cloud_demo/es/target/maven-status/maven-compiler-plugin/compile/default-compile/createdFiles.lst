@@ -1,0 +1,9 @@
+com\study\domain\TbUser.class
+com\study\mapper\TbHotelMapper.class
+com\study\service\EsService.class
+com\study\service\impl\OrderServiceImpl.class
+com\study\service\impl\EsServiceImpl.class
+com\study\domain\TbHotel.class
+com\study\EsApplication.class
+com\study\mapper\TbUserMapper.class
+com\study\service\OrderService.class

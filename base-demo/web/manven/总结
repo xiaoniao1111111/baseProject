@@ -1,0 +1,63 @@
+Maven
+简述: 用来管理项目的一款软件,对项目生命周期的管理,从编译,测试,打包,部署,运行都由maven来完成
+场景: 统一对依赖(jar包)的管理
+
+1.  Maven的概念模型
+    简述: maven对项目抽取成一个对象,这个对象就是POM对象模型,每个maven项目中都有一个pom.xml文件,
+    maven就是通过这个文件来管理我们的依赖,本工程坐标及打包的运行方式
+
+2.  Maven仓库
+    简述: 专门用来存放jar包的地方叫做maven仓库
+
+    Maven仓库分类:
+    <1> 本地仓库: 相等于缓存,第一次项目加载,会从远程仓库中将jar包下载下来保存在本地仓库中,第二次则不需要从
+        远程仓库中下载,没有才会去远程仓库中下载
+    <2> 中央仓库: 有专门的jar包团队维护jar,开发下载jar的地方
+        国内下载jar包 阿里云 http://maven.aliyun.com/nexus/content/groups/public
+    <3> 远程仓库: 公司内部自己有一台下载jar包的私服,相对来说下载速度较快
+
+3. maven仓库配置
+   maven默认下载jar包的地址是国外中央仓库,想要到阿里私服去下载jar包,就要在maven配置中配置阿里服务器地址
+   <mirror>
+         <id>alimaven</id>
+         <name>aliyun maven</name>
+         <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+         <mirrorOf>central</mirrorOf>
+     </mirror>
+     <mirror></mirror> 标签的作用就是拦截,在我们向中央仓库下载jar包的时候将其拦截,然后去访问我们配置的路径
+
+4. maven的坐标
+   简述: 依赖在maven中的唯一标识
+   groupId: 依赖所属某个机构的名称(在公司里面创建的maven则是公司的域名)
+   artifactId: 项目名
+   version: 版本
+   scope: 依赖的范围
+   查看所有依赖的网址: http://mvnrepository.com/(当不确定依赖的版本,groupId的时候可以去这个上面看)
+
+5. 清除下载失败的jar包
+  点击cleanLastUpdated.bat,清除下载失败的jar包
+
+6. idea右边打包选择框没有了
+    点击view->选择Tool Buttons 即可
+
+7. maven创建web工程
+   创建javaweb工程与创建javase工程类似，但在选择**Maven骨架**时，选择maven-archetype-webapp即可
+
+9. 命令详解
+    clean: 清除编译产生target文件
+    complie: 对项目进行编译
+    test: 对test包下的test方法
+    package: 打包,对项目打成target文件
+    install: 安装,将打成的包安装到maven仓库中,就可以供其他人使用
+
+10. 依赖管理
+    依赖范围:    对编译    对测试     对运行
+    compile:    Y           Y        Y
+    test:        -           Y       -
+    provided:   Y           Y        -
+    runtime:    -           Y        Y
+    system:     Y           Y        -
+
+11. 永久更改依赖访问的顺序
+    设置： 关闭项目，在configure中找到vm options配置项中加上： -DarchetypeCatalog=internal
+    所有资源都先从本地仓库查找，没有再去网络上面下载

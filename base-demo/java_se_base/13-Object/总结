@@ -1,0 +1,84 @@
+1. 简述
+    Object是所有类的父类,父类中的非私有的方法,子类也可以使用
+
+2. 类中equals由来
+2.1 判断对象中的属性是否相等,我们通过Object类中的equals来判断
+2.2 发现通过类.equals(比较类),判断的是对象的地址,而不是对象中的属性
+2.3 要判断对象中的属性是否相等,则需要重写Object类中的equals方法,这时发现生成的方法中其实比较的就是类的属性,
+    而不是类的地址
+
+3. 类中toString由来
+3.1 我们通过测试方法直接打印new出来的对象,发现打印出来的地址,不是我们想要看到的类中所定义的属性
+   注: 这里所说的类的地址不是真正的地址,严格的说是有: 类的全名+@+哈希码值组成的字符串
+3.2 这时Object中有toString方法,这时我们重写toString方法,那么打印出来的对象则是由属性拼接出来的字符串
+
+4. 类中的hashCode由来
+   用来获取类的哈希码值,相同对象的哈希码值是一样的,不同对象的哈希码值是不一样的
+
+5. Date(日期)
+    简述: 在1.1版本之前日期年月日时分秒的计算用Date来计算,1.1版本之后则用cander类来计算
+    原因: 不能通用与国际化,因为Date生成的日期是带年月日的,而对于国外来说是看不懂的
+
+6. DateFormat
+    简述: 用于日期和字符串互转
+    DateFormat本事是个抽象类,我们想要使用它,那么有两种方式:
+    方式一: 调用本身static方法使用   方式二: 通过实现类来使用,则是采用了多态
+    simpleDateFormat是DateFormat的实现类,通过这个类来完成日期的互转
+    parse(): 将字符串解析为日期  format(): 将日期转换成字符串
+
+7. Calendar
+   简述: 对日期中的年月日时分秒进行操作
+   Calendar本身也是个抽象类,想要使用它,要么调用它的静态方法,要么通过实现类来使用
+    1)  getInstance()方法
+        通过这个方法可以得到Calendar对象
+    2)  Calendar类也复写了toString()方法,对Calendar打印出来的信息进行解析
+        java.util.GregorianCalendar[time=1642775481158, 表示: 时间戳
+        areFieldsSet=true,areAllFieldsSet=true,lenient=true,
+        zone=sun.util.calendar.ZoneInfo[id="Asia/Shanghai", 地区: 上海
+        offset=28800000,dstSavings=0,useDaylight=false,transitions=19,lastRule=null],
+        firstDayOfWeek=1, firstDayOfWee  表示: 今天是星期五
+        minimalDaysInFirstWeek=1,ERA=1,
+        YEAR=2022,      表示: 年: 2022
+        MONTH=0,        表示: 月: 1月  注: 在计算机中月份是从0开始的,11结束,输入12则是第二年的第一个月
+        WEEK_OF_YEAR=4,  表示: 今年第4个星期
+        WEEK_OF_MONTH=4,    表示: 这个月的第四个星期
+        DAY_OF_MONTH=21,    表示: 日(这个月的第几天)
+        DAY_OF_YEAR=21,     表示: 今年的第几天
+        DAY_OF_WEEK=6,  表示: 这个星期的星期几, 注: 在计算机中第一天是从星期天开始的
+        DAY_OF_WEEK_IN_MONTH=3,AM_PM=1,HOUR=10,
+        HOUR_OF_DAY=22, 表示: 当天几点
+        MINUTE=31,      表示: 当前是多少分钟
+        SECOND=21,      表示: 当前是多少秒
+        MILLISECOND=158, 表示: 毫秒
+        ZONE_OFFSET=28800000,DST_OFFSET=0]
+
+    3)  calendar中的get方法
+        简述: 获取日历中的年月日时分秒的值
+        年: Calendar.YEAR  月: Calendar.MONTH   日: Calendar.DAY_OF_MONTH
+        时: HOUR_OF_DAY  分: Calendar.MINUTE  秒: Calendar.SECOND
+        注: 在获取月份的时候一定要+1,因为月份时从0开始的
+
+    4)  calendar中的set方法
+        简述: 给指定的字段设置指定的值
+             比如指定的字段是年,则对年设置指定的值
+
+    5)  calendar中的add方法
+        简述: 对指定的字段相加或相减
+             比如: 指定的字段是月份,则对月份相加或相减
+
+8. StringBuilder
+    简述: 字符串缓冲区
+    缓冲区: 临时存储数据的地方叫缓冲区
+    比如: 爱奇艺看电影,有时候进入缓冲阶段,那是因为正在从爱奇艺将电影下载到本地
+          去超市购物,购物篮临时将我们需要买的东西放在篮子里面,这个篮子就相等于缓冲区
+    同理字符串缓冲区就是存放字符串的缓冲区叫字符串缓冲区
+    1)  String 拼接与StringBuilder的区别:
+        <1> String拼接起来的字符串会生成一个新的对象,而StringBuilder用的还是原来的对象
+        <2> String每个字符串拼接之前都会在字符串常量池中创建一个新的对象,如果要拼接1000个10000个字符串,
+            那么就要创建一千个对象,不仅占用内存资源还非常耗时
+    2)  StringBuilder优点及缺点
+        优点: 在拼接过程中,可以拼接任意的数据类型,可以时int,double,bolean,char
+        缺点: 最终都会变成字符串
+    3)  StringBuilder容量
+        StringBuilder默认容量是16,当容量不够的时候会进行扩容,算法为: 原来的容量X2+2
+        比如: 原容量为: 20   扩容后: 20X2+2

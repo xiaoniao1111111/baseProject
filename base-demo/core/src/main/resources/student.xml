@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<students Description="students of atguigu" >
+    <group groupID="1">
+        <student id="1">
+            <name>王一</name>
+            <sex>男</sex>
+            <age>20</age>
+        </student>
+
+        <student id ="2">
+            <name>李二</name>
+            <sex>男</sex>
+            <age>21</age>
+        </student>
+
+        <student id="3">
+            <name>张三</name>
+            <sex>女</sex>
+            <age>20</age>
+        </student>
+    </group>
+
+    <group groupID="2">
+        <student id="4">
+            <name>王五</name>
+            <sex>男</sex>
+            <age>22</age>
+        </student>
+
+        <students id = "5">
+            <name>马六</name>
+            <sex>女</sex>
+            <age>18</age>
+        </students>
+    </group>
+
+</students>
+

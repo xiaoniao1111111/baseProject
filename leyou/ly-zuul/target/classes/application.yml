@@ -1,0 +1,43 @@
+# 端口号
+server:
+  port: 10010
+# 服务名称
+spring:
+  application:
+    name: zuul-getway
+
+# zuul路由配置
+# 原理: 1. zull发起请求"http://localhost:10010/user-service/user/getUser/1"
+#      2. 拦截"/user-service/**"请求路径,然后转发为请求: http://user-server/user/getUser/1
+#      3. 通过Ribbon(负载均衡)实现具体请求地址的分配
+zuul:
+  prefix: /api # 添加路由前缀,目的是为了路由提速
+  routes:
+    #path: /user-service/** # 这里是映射路径
+    #serviceId: user-server # 指定服务名称
+    # 对以上的映射路径简化:  应用名称ID对应映射路径
+    user-server: /user-service/** # 这里是映射路径
+      #url: http://127.0.0.1:81 # 映射路径对应的实际url地址
+
+# 1.zuul每隔15s向Eureka获取服务列表,发起请求的地址就是"http://127.0.0.1:10086/eureka"
+eureka:
+  client:
+    registry-fetch-interval-seconds: 15 # 获取服务列表的周期：5s
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+# 2.在获取服务列表的同时,告诉Eureka,发送请求的ip地址(Zuul网关的IP)
+  instance:
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+
+# 配置zuul里面的Ribbon和Hystrix
+ribbon:
+  ConnectTimeout: 250 # 连接超时时间(ms)
+  ReadTimeout: 2000 # 通信超时时间(ms)
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000

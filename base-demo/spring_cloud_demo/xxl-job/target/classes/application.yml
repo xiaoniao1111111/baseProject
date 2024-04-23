@@ -1,0 +1,27 @@
+# 端口号
+server:
+  port: 8082
+# 给应用起个名字
+spring:
+  application:
+    name: xxl-job-demo
+
+#springboot数据源配置
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mysql
+    username: root
+    password: root1234
+
+xxl:
+  job:
+    accessToken: default_token  #这里的token一定要和xxl-job-admin配置的token一致,要不然没有权限
+    admin:
+      addresses: http://127.0.0.1:8080/xxl-job-admin  #调度中心的地址
+    executor:
+      appname: xxl-job-demo   # 填写服务名称
+      address: # 不用配置
+      ip: #自动获取(多网卡的时候才会配置)
+      port: 9969 # 自己自定义一个端口
+      logretentiondays: 30  #日志清除间隔,每隔30天清除一次
+      logpath: /data/applogs/xxl-job/jobhandler #日志路径

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.noah.mapper.TbUserMapper">
+    <select id="queryUserById" resultType="com.noah.domain.TbUser">
+        select * from tb_user where id=#{id}
+    </select>
+
+    <insert id="insert1" parameterType="com.noah.domain.TbUser">
+        select * from tb_user where id=#{id}
+    </insert>
+
+</mapper>

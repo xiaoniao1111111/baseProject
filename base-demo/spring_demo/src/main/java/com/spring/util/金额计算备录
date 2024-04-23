@@ -1,0 +1,13 @@
+金额计算备录设置:
+一.  string转为BigDecimal
+new BigDecimal(字符串)
+
+二.  BigDecimal转为String
+1.  new StringBuilder("#0")
+2.  通过遍历,拼接保留位数格式
+3.  用DecimalFormat格式化模板
+4.  保留位数用RoundingMode转换
+
+三.  Decimal
+1.  decimal的模板格式：”，###，##0.00“
+简述： 小数点前面每超过三位用逗号隔开，如果该位置没有值不显示，如果所有位置都没有值则为0，小数点后面表示保留两位小数如果不够则用零代替

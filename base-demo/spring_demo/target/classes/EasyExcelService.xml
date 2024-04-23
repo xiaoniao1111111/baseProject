@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userMapper">
+    <select id="getUserInfo" parameterType="java.lang.Long" resultType="com.noah.domain.TbUser">
+      select * from tb_user where id=#{id}
+    </select>
+
+    <resultMap id="orderMap" type="UserInfo" autoMapping="true">
+        <id column="id" property="id"/>
+        <association property="user" javaType="TbUser" select="getUserAndOrderInfo" column="{user_id=id}">
+        </association>
+    </resultMap>
+
+    <!--懒加载测试-->
+    <select id="getOderIno" resultMap="orderMap">
+      SELECT * FROM tb_order b where b.order_number=#{orderNumber}
+    </select>
+    <select id="getUserAndOrderInfo" resultType="TbUser">
+      select * from tb_user where id=#{id}
+    </select>
+
+    <!--懒加载测试-->
+ <!--   <select id="userAndOrserInfo" parameterType="java.lang.Long" resultType="">
+
+    </select>-->
+
+    <!--动态sql: if练习-->
+
+    <!--动态sql: where练习-->
+    <!--    <where>
+        <if test="userName!=null and userName.trim()!=''">user_name like '%' #{userName} '%'</if>
+        <if test="age!=null">and age = #{age}</if>
+    </where>-->
+
+    <!--动态sql: chose when练习-->
+    <!-- <choose>
+        <when test="userName!=null and userName.trim()!=''">and user_name like '%' #{userName} '%'</when>
+        <when test="age != null">and age = #{age}</when>
+        <otherwise>and user_name = 'zhangsan' </otherwise>
+    </choose>-->
+
+    <!--动态sql: set练习-->
+    <!--    <set>
+        <if test="userName!=null and userName.trim()!=''">user_name = #{userName},</if>
+        <if test="password!=null and password.trim()!=''">password = #{password},</if>
+        <if test="name!=null and name.trim()!=''">name = #{name},</if>
+        <if test="age!=null">age = #{age},</if>
+        <if test="sex!=null">sex = #{sex},</if>
+        updated = now(),
+    </set>-->
+</mapper>

@@ -1,0 +1,39 @@
+Session
+    简述:  在多次会话之间,session中的信息共享
+
+    特点:
+        <1> 保存在服务器内部
+        <2> 比request的作用域大
+        <3> session与用户之间建立了唯一性,每个用户对应一个session
+
+    原理:
+    第一次客户(浏览器)访问服务端,服务器(tomact)request对象会创建一个seeion并生成一个ID,信息存储在session中,
+    此时服务器还会生成一个cookie对象,将session的ID,放在cookie对象中
+    在服务端将信息返回给客户端的时候,会把cookie给到客户端
+    下次这个客户再去访问服务端的时候,会将cookie中的ID给到服务端,服务端拿到ID之后,去找该
+    ID的session信息,同时将新的信息保存在这个session中(这个判断是服务器内部自己完成的)
+
+1. Session创建
+     // 通过request对象创建Session
+     HttpSession session = req.getSession();
+     // 获取Session的ID
+     String id = session.getId();
+
+2. Session持久化设置
+    1. 创建Cookie对象,key通用为:JSESSIONID ,id为Session的Id
+    2. 设置cookie的持久化,为一年
+    3. 将cookie放入response对象中,覆盖cookie的存活时间
+
+3. Session中设置值
+
+4. Session中获取值
+
+5. Session的应用场景
+   Session是在服务端进行共享
+   1. 登录成功后将用户的信息放入Session中
+   2. 验证码验证
+   验证码验证步骤:
+       1. 创建Session并存放验证码
+       2. 设置Session的持久化
+       3. 服务端获取Session中的验证码
+       4. session中验证码与用户输入的验证码比对,成功: 重定向到返回验证成功界面,失败: 重定向到返回验证失败解绑

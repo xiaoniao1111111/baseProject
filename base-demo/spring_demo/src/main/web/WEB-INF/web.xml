@@ -1,0 +1,47 @@
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+    <welcome-file-list>
+        <welcome-file>/login.html</welcome-file>
+    </welcome-file-list>
+    &lt;!&ndash; springmvc入口 &ndash;&gt;
+    <servlet>
+        &lt;!&ndash;这里的名称要和springMvc配置文件名称一致(例: springmvc-servlet.xml),要不然会找不到这个springmvc名称的配置&ndash;&gt;
+        <servlet-name>springmvc</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        &lt;!&ndash;将srpingmvc配置文件放在resources下面&ndash;&gt;
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            &lt;!&ndash;指定读取配置文件的位置: 意思是从我们编译后的target包中classpath文件中找springmvc-servlet.xml配置&ndash;&gt;
+            <param-value>classpath:springmvc-servlet.xml</param-value>
+        </init-param>
+        &lt;!&ndash; 项目启动时，就加载并实例化 &ndash;&gt;
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    &lt;!&ndash;springmvc配置
+        /*拦截所有请求
+        /拦截所有请求，不包括jsp
+        *.do表示拦截所有以.do结尾的请求
+     &ndash;&gt;
+    <servlet-mapping>
+        <servlet-name>springmvc</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+    &lt;!&ndash;spring的核心监听器监听器&ndash;&gt;
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    &lt;!&ndash; 全局参数变量 &ndash;&gt;
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        &lt;!&ndash; applicationContext.xml文件的位置，使用classpath定义 &ndash;&gt;
+        <param-value>classpath:applicationContext.xml</param-value>
+    </context-param>
+
+</web-app>
+-->

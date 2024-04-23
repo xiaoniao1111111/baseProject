@@ -1,0 +1,38 @@
+server:
+  port: 8080
+
+#springboot数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mysql
+    username: root
+    password: root1234
+
+# Quartz(定时任务)
+org:
+  quartz:
+    # 调度器配置
+    scheduler:
+      tablePrefix: QRTZ_   # 表的前缀
+      isClustered: true     # 是否集群
+      clusterCheckinInterval: 2000  # 检入频率
+      instanceName: springBootDemoQuartzShcheduler  # 调度器名称
+      instanceId: AUTO # 调度器ID
+
+    # 储存信息配置
+    jobStore:
+      class: org.quartz.impl.jdbcjobstore.JobStoreTX # 配置事务
+      driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate # 配置连接数据库类型
+
+    # 数据源配置
+    threadPool:
+      class: org.quartz.simpl.SimpleThreadPool # 配置线程池
+      threadCount: 20 # 线程数(不建议超过100)
+      threadPriority: 5 # 线程优先级 (从1到10,级别越高越优先被执行,默认级别为5)
+      threadsInheritContextClassLoaderOfInitializingThread: true # 是否从外部继承
+
+
+
+
+

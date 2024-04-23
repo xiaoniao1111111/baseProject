@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--1. 无参构造器-->
+    <bean id="userDao" class="com.spring.srping.service.serviceimpl.UserDaoImpl"/>
+    <!--DI依赖注入实现-->
+    <bean id="userServiceImpl" class="com.spring.srping.service.serviceimpl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+    <!--2. 静态工厂方法-->
+    <bean id="bean2Bak" class="com.spring.srping.instanceBeanBak.Bean2BakFactory" factory-method="getBean2Bak"/>
+    <!--3. 非静态工厂方法-->
+    <bean id="bean3BakFactory" class="com.spring.srping.instanceBeanBak.Bean3BakFactory"/>
+    <bean id="bean3Bak" factory-bean="bean3BakFactory" factory-method="getBean3Bak"/>
+    <!--4. FactoryBean-->
+    <bean id="bean4Bak" class="com.spring.srping.instanceBeanBak.Bean4BakFactory"/>
+</beans>

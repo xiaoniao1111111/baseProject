@@ -1,0 +1,128 @@
+springMvc
+简述: 它是一款web层的框架
+1. MVC:
+   M(mode): 模型
+   简述: 用来封装数据,处理数据的,一般是请求实体类和响应实体类
+   v(view): 视图
+   简述: 用来显示界面,比如: jsp,html
+   c(controller): 控制器
+   简述: 用来决定那个页面来展示这个模型
+
+2. 注解使用
+    2.1 类上注解
+        @Controller: 控制器注解,用来表示接收请求参数和响应结果的层
+        @RequestMappering: 指定请求路径,一般作用在类上,用来表明这个类属于哪个模块
+
+    2.2 ant风格映射
+        <1> ?: 表示匹配一个任意字符
+        <2> *: 表示匹配0个或多个字符
+        <3> **: 表示匹配0个或多个路径
+
+    2.3 占位符映射
+        简述: 在请求路径后面直接跟参数
+        格式: /{参数名称}
+        方法中接受: @PathVariable("参数名称")
+
+    2.4 接受参数注解
+        <1> 接受基本数据类型(普通参数)
+            @RequestParam(value="参数名称", required = true, defaultValue=flase)
+        <2> 接受对象
+             对象 对象名
+             例:  User user
+         <3> 接受集合
+             将集合用对象包起来
+             例: UserVo userVo    UserVo中有一个UserList集合属性
+         <4> 获取cokkie
+             @CookieValue
+
+    2.5 限定请求方法和请求参数
+        <1> 限定请求方法格式:
+            @RequestMapping(value = "/show/getMethod", method = RequestMethod.GET(请求方式))
+        <2> 限定请求参数格式:
+            @RequestMapping(value = "/show2", method = RequestMethod.GET, params = "id(参数名称)")
+
+    2.6 组合注解
+        对应请求方式: @PostMapping(增),@DeleteMapping(删),@PutMapping(改),@GetMapping(查)
+
+3. 将srpingmvc配置文件放在resources下
+    简述: mybatis,srping都是将配置文件放在resources下
+    格式:
+    <init-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:springmvc-servlet.xml</param-value>
+     </init-param>
+
+4. JSON
+   简述: json就是一个字符串,是我们传递数据的一种格式
+   @ResponseBody: 是把controller方法返回值转换为JOSN,称为序列化
+   @RequestBody: 是把接受到的的JSON数据转换为对象,称为反序列化
+
+    4.1 转换JOSN常用工具
+        <1> Gson
+            Google的工具,功能强大,效率低
+        <2> FastJson
+            阿里的工具,效率高,功能稍逊
+        <3> jackson
+            springmvc内置转换工具,功能和效率都可以,使用较广
+        步骤:
+        <1> 引入jackson依赖
+        <2> 配置注解驱动(在springmvc-servlet.xml中配置)
+        <3> 在注解驱动中修改消息转换器中的编码集
+
+    4.2 @RestController
+        简述: 在controller层每次返回结果都要在方法上加个@ResponseBody,如果多个方法则需要加多个,
+              为了进一步优化,则有了@RestController,在类上加上这个注解,则说明这个controller中所有
+              方法的返回值都会转换为json数据格式
+
+    4.3 @RequestBody
+        简述: 用来接收方法体重的请求参数,一般用于post,put请求
+
+    4.4 解决接收请求参数为中文乱码问题
+        修改消息转换器中的编码集,在springmvc-servlet.xml中配置
+
+5. 文件上传
+    5.1 步骤:
+        <1> 引入依赖
+        <2> 在springmvc-servlet.xml中配置上传文件解析器,设置文件大小,设置文件编码集
+        <3> 在方法中通过@RequestParam("file") 指定获取文件的参数名
+
+          通过MultipartFile来接受文件
+        <4> file.transferTo(new File("D:\\image" + file.getOriginalFilename()));
+            将文件保存在指定的位置
+    5.2 自定义上传文件大小异常类
+        简述: 当上传的文件超出配置中的文件大小时,则会抛出超出文件最大异常,此时用户是看不懂的,我们则需要对异常进行处理,
+              转换成业务异常处理
+        <1> 自定义一个文件异常类,实现HandlerExceptionResolver
+        <2> 复写方法,在方法中判断该异常是不是超出文件大小异常,是则抛出异常
+            e instanceof MaxUploadSizeExceededException
+        <3> 将异常类交给spring管理(@Component)
+
+6. springmvc重定向和转发
+    简述: return一个转发或者重定向的一个格式的路径,完成转发和重定向功能
+    注意: 不要用@RestController来定义类,这样会序列化,导致重定向或者转发失败,用@Controller修饰即可
+    绝对路径:
+        转发格式: "forward:/父路径/子路径"
+        重定向格式: "redirect:/父路径/子路径"
+        "/": 代表的是绝对路径(http:/localhost:8080)
+    相对路径:
+      转发格式: "forward:当前请求路径"   例: forward:show2
+      重定向格式: "redirect:父路径/子路径"  例: redirect:show2
+   步骤:
+   <1> 在pom文件中配置绝对路径
+     <configuration>
+       <port>8080</port>
+       <path>/</path>
+     </configuration>
+   <2> 创建一个转发方法,方法体中返回 forward:/父路径/子路径,完成转发
+   <3> 创建一个重定向方法,方法体中返回 redirect:/父路径/子路径,完成转发
+
+7. spirng拦截器
+    简述: 对请求拦截,在处理请求逻辑前后做一些前置,后置方法处理,同时调用完成之后做回调处理
+    应用场景: 1. 权限检查  2.性能监控
+    步骤:
+    <1> spring-servlet.xml中配置HandlerInterceptor拦截器
+    <2> 实现HandlerInterceptor方法,复写该接口中的方法,在方法中完成逻辑处理
+    方法:
+        1) preHandle: 处理业务逻辑之前执行的方法,返回结果true,则执行业务逻辑,返回结果false,则不执行业务逻辑
+        2) postHandle: 处理完业务逻辑之后执行的方法
+        3) afterCompletion: 视图渲染完成之后,回调的方法

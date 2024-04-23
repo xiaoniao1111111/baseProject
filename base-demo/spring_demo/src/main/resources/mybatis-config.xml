@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--1. properties: 引入外部资源
+           参数: resource: 相对路径  url: 绝对路径
+           通过${xxx}的方式来使用外部资源中的参数-->
+  <!--  <properties resource="jdbc.properties"/>-->
+
+    <!--2.对mybatis的功能进行设置-->
+    <settings>
+        <!--对字段开启驼峰匹配,比如 user_name 可以匹配 userName-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--开启延迟加载总开关-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--关闭按需加载(立即加载),目的是为了让延迟加载生效-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+    <!--3. 对映射文件中类的全路径起别名和开启包扫描-->
+    <typeAliases>
+        <!--方式一: 对类的全路径起别名,type: 类全名  alias: 别名-->
+        <!-- <typeAlias type="com.noah.domain.TbUser" alias="abc"></typeAlias>-->
+        <!--方式二: 开启包扫描,name:包路径,扫描的别名就是类名,并且大小写不敏感-->
+        <package name="com.noah.domain"/>
+        <package name="com.spring.mybatis.data"/>
+    </typeAliases>
+
+    <!--4. 类型处理器,通过类型处理器将数据库中的类型转换成java数据类型-->
+    <!--<typeHandlers></typeHandlers>-->
+
+    <!--environments: 环境配置,说明可以配置多个,
+    参数: default: 指定生效的环境,这个环境可以是开发,测试,生产,指定是哪套,使用的就是哪套环境-->
+ <!--   <environments default="development">
+        &lt;!&ndash;环境ID: 环境配置的唯一标识&ndash;&gt;
+        <environment id="development">
+            &lt;!&ndash;事务管理器,type: 类型&ndash;&gt;
+            <transactionManager type="JDBC"/>
+            &lt;!&ndash;数据源,池类型的数据源&ndash;&gt;
+            <dataSource type="POOLED">
+                &lt;!&ndash;通过$来获取外部资源信息&ndash;&gt;
+                <property name="driver" value="${jdbc.driverClass}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>-->
+
+    <!--映射文件-->
+    <mappers>
+        <mapper resource="userMapper.xml"/>
+    </mappers>
+
+</configuration>

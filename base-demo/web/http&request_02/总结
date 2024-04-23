@@ -1,0 +1,77 @@
+Http协议
+1.简述: 超文本协议,定义了客户端与服务端传输数据的格式
+
+2. 特点
+   请求和响应必须成对,先请求后响应,一次请求对应一次响应
+
+3. Http协议的结构
+   Http协议结构包含两部分: 请求报文和响应报文
+   请求报文: 客户端对服务端的请求数据格式,由请求行,请求头,请求体组成
+   响应报文: 服务端对客户端的响应数据格式,由响应行,响应行,响应体组成
+
+4. HttpServletRequest对象
+   简述: 用来接受请求参数的对象
+   原理: 客户端请求服务端,在到达Servlet之前,tomcat会创建一个request对象,将请求报文解析,封装
+   到request对象中,其次tomact创建servlet对象,然后调用service()方法时将request对象传递进去,对请求参数
+   进行处理并返回响应结果
+
+5. Request获取请求数据
+   请求报文中分为: 请求行,请求头,请求体
+   <1> 请求行
+   1) getMethod(): 获取请求方式
+   2) getRequestUrl(): 获取请求路径
+   3) getRemoteAddr(): 获取IP地址
+   4) getProtocol(): 获取协议/版本
+
+   <2> 请求头
+   获取请求头是通过key-value的形式获取
+   getHeader(String s): 参数就是请求头中的key
+
+   <3> 请求体
+   用来获取真正请求参数的
+   getParameter(): 获取请求参数类型为单个的方法
+   getParameterValues(): 获取请求参数类型为数组的方法
+   getParameterNames()方法：获取所有参数的参数名
+   getParameterMap()方法：获取参数以name=value形式存储在Map集合中，将Map集合返回。
+
+   <4> 设置请求体编码格式:
+   req.setCharacterEncoding("utf-8");
+
+6. Request作用域
+    简述: 就是Request的作用范围
+
+    <1> Request的生命周期
+    第一步: 客户端发起请求,tomcat接受请求,同时创建request对象和response对象
+    第二步: tomact解析请求参数,并将请求参数放入到request对象中
+    第三步: 然后tomcat通过反射创建serlvet对象并接受request对象
+    第四步: servlet接受到请求后调用doGet()方法/doPost()方法处理请求参数
+    第五步: 处理完请求信息后通过response返回给浏览器
+    第六步: 浏览器接受返回结果成功后,tomact摧毁request,response对象,同时摧毁两个对象中的所获得的信息
+
+    <2> Request作用域对象中的方法
+    简述: Request域对象的作用就是设置请求参数,将请求参数通过转发共享给其他servlet
+    1) setAttribute(): 存储请求参数
+    2) getAttribute(): 获取请求参数
+    3) removeAttribute(): 移除请求参数
+
+    <3> 转发实现步骤
+     第一步: 创建主servlet接受请求参数
+     第二步: 获取请求参数,并将请求参数设置在request作用域对象中
+            String name = req.getParameter("name");
+     第三步: 获取转发器
+            RequestDispatcher dispatcher = req.getRequestDispatcher("/chenServlet");
+     第四步: 转发
+            dispatcher.forward(req,resp);
+     第五步: 创建转发的servlet,并获取作用域对象中的请求参数,处理请求参数
+            String name = (String) req.getAttribute("name");
+     第六步: 响应结果返回给前端
+
+     特点： 1. 发起一次请求  2.在同一个作用域中完成
+
+7. 扩展
+    场景: tomact启动之后里面立即加载某个页面
+    解决: 在web.xml中加入以下设置即可
+        <welcome-file-list>
+            <welcome-file>"需要立即加载的页面"</welcome-file>
+        </welcome-file-list>
+

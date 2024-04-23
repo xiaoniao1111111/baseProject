@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <bean class="com.spring.springmvc.annotation.AntShowController" id="antShowController"/>
+    <bean class="com.spring.springmvc.data.FuitList" id="fuitList"/>
+    <bean class="com.spring.springmvc.data.Fuit" id="fuit"/>
+    <bean class="com.spring.springmvc.annotation.AcceptParamShowController" id="acceptParamShowController"/>
+    <bean class="com.spring.springmvc.annotation.PlaceholderShowController" id="placeholderShowController"/>
+    <bean class="com.spring.springmvc.annotation.LimitShowController" id="limitShowController"/>
+    <bean class="com.spring.springmvc.json.JsonController" id="jsonController"/>
+    <context:component-scan base-package="com.spring.springmvc"/>
+
+    <!--json配置: 配置注解驱动-->
+    <mvc:annotation-driven>
+        <!--修改消息转换器中的编码集(接受中文请求参数乱码问题)-->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg index="0" value="utf-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!--文件上传配置: 配置文件上传解析器,
+    id必须为multipartResolver,因为其使用该解析器的时候,底层通过这个id来获取解析器的-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!--设置上传文件大小,单位: 字节 这里设置为5M-->
+        <property name="maxUploadSize" value="5242880"/>
+        <!--设置上传文件编码集-->
+        <property name="defaultEncoding" value="utf-8"/>
+    </bean>
+
+    <!--spring拦截器配置-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.spring.springmvc.interceptor.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+</beans>

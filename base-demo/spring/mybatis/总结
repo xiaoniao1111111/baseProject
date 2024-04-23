@@ -1,0 +1,35 @@
+Mybatis
+简述: Mybatis是一款ORM持久化框架,对JDBC进行了简单的封装,自动设置参数及结果及与Java对应自动映射
+ORM映射: 表中的字段与实体类中的属性一一对应,这种对应关系则就是ORM映射
+
+Mybatis框架获取数据结果集原理
+   1. 获取配置文件流
+   2. 创建sqlSessionFactory工厂对象
+   3. 获取sqlSession会话对象
+   4. 通过sqlSession对象调用里面的方法获取数据库结果集
+   5. 关闭sqlSession会话
+
+注意事项:
+        1. 配置文件: 数据库连接和执行sql的映射文件
+        2. sqlSession执行器中的参数是映射文件唯一标识.方法的唯一标识
+        3. 返回结果类型: 是类的全名
+
+mybatis中特殊字符处理
+1. 使用xml中的字符实体
+    &lit < 小于
+    &gt  > 大于
+2. 使用<![CDATA[ < ]]>
+
+
+Mybatis
+1. 简介
+2. 传统与mybatis的优缺点
+3. mybatis配置文件介绍
+    1. properties  2. settings 3. typeAliases  3. typeHandlers 4. environments
+4. mybais.xml属性介绍
+  1. id  praramType resultType resultMap
+5. #与$区别
+6. sql片段
+7. 动态sql  if  where...if  set...if   chose..whern   foreach
+8. 懒加载和立即加载
+

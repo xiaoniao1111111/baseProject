@@ -1,0 +1,10 @@
+spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch #这里是自己es启动时的名称
+      cluster-nodes: 127.0.0.1:9300 #自己访问es的地址
+# es日志打印
+logging:
+  level:
+    org.springframework:
+      debug

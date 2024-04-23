@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--1. properties: 引入外部资源
+           参数: resource: 相对路径  url: 绝对路径
+           通过${xxx}的方式来使用外部资源中的参数-->
+    <properties resource="jdbc.properties"/>
+
+    <!--2.对mybatis的功能进行设置-->
+    <settings>
+        <!--对字段开启驼峰匹配,比如 user_name 可以匹配 userName-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--开启延迟加载总开关-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--关闭按需加载(立即加载),目的是为了让延迟加载生效-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+    </settings>
+
+    <!--3. 对映射文件中类的全路径起别名-->
+    <typeAliases>
+        <!--方式一: 对类的全路径起别名,type: 类全名  alias: 别名-->
+       <!-- <typeAlias type="com.noah.domain.TbUser" alias="abc"></typeAlias>-->
+        <!--方式二: 开启包扫描,name:包路径,扫描的别名就是类名,并且大小写不敏感-->
+        <package name="com.noah.domain"></package>
+    </typeAliases>
+
+    <!--4. 类型处理器,通过类型处理器将数据库中的类型转换成java数据类型-->
+    <!--<typeHandlers></typeHandlers>-->
+
+    <!--environments: 环境配置,说明可以配置多个,
+    参数: default: 指定生效的环境,这个环境可以是开发,测试,生产,指定是哪套,使用的就是哪套环境-->
+    <environments default="development">
+        <!--环境ID: 环境配置的唯一标识-->
+        <environment id="development">
+            <!--事务管理器,type: 类型-->
+            <transactionManager type="JDBC"/>
+            <!--数据源,池类型的数据源-->
+            <dataSource type="POOLED">
+                <!--通过$来获取外部资源信息-->
+                <property name="driver" value="${jdbc.driverClass}"/>
+                <property name="url" value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+
+    <!--映射文件-->
+    <mappers>
+        <mapper resource="TbUserMapper.xml"/>
+    </mappers>
+  <!--  <settings>
+        &lt;!&ndash; 使全局的映射器启用或禁用缓存。 &ndash;&gt;
+        <setting name="cacheEnabled" value="true" />
+        &lt;!&ndash;全局启用或禁用延迟加载.当禁用时,所有关联对象都会即时加载&ndash;&gt;
+        <setting name="lazyLoadingEnabled" value="true" />
+        &lt;!&ndash;当启用时,有延时加载属性的对象在被调用时将会完全加载任意属性.否则,每种属性将会按需加载&ndash;&gt;
+        <setting name="aggressiveLazyLoading" value="false" />
+        &lt;!&ndash;是否单条sql返回多个数据集(取决于驱动的兼容性),开启返回多条数据&ndash;&gt;
+        <setting name="multipleResultSetsEnabled" value="true" />
+        &lt;!&ndash;是否可以使用列的别名(取决于驱动的兼容性),开启别名&ndash;&gt;
+        <setting name="useColumnLabel" value="true" />
+        &lt;!&ndash; 允许JDBC 生成主键。需要驱动器支持。如果设为了true，这个设置将强制使用被生成的主键，有一些驱动器不兼容不过仍然可以执行。  default:false  &ndash;&gt;
+        &lt;!&ndash;<setting name="useGeneratedKeys" value="true"/>&ndash;&gt;
+        &lt;!&ndash;表与DTO映射: PARTIAL: 部分 FULL:全部&ndash;&gt;
+        <setting name="autoMappingBehavior" value="FULL" />
+        &lt;!&ndash; 这是默认的执行类型  （SIMPLE: 简单； REUSE: 执行器可能重复使用prepared statements语句；BATCH: 执行器可以重复执行语句和批量更新）  &ndash;&gt;
+        <setting name="defaultExecutorType" value="SIMPLE" />
+        <setting name="defaultStatementTimeout" value="25000" />
+        &lt;!&ndash; mybatis注解，开启驼峰命名 &ndash;&gt;
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+        &lt;!&ndash; 设置本地缓存范围 session:就会有数据的共享  statement:语句范围 (这样就不会有数据的共享 ) defalut:session &ndash;&gt;
+        &lt;!&ndash;<setting name="localCacheScope" value="SESSION"/>&ndash;&gt;
+        &lt;!&ndash; 设置但JDBC类型为空时,某些驱动程序 要指定值,default:OTHER，插入空值时不需要指定类型 &ndash;&gt;
+        &lt;!&ndash;<setting name="jdbcTypeForNull" value="NULL"/>&ndash;&gt;
+
+    </settings>
+-->
+
+ <!--    <typeAliases>
+        <typeAlias alias="Integer" type="java.lang.Integer" />
+        <typeAlias alias="Long" type="java.lang.Long" />
+        <typeAlias alias="HashMap" type="java.util.HashMap" />
+        <typeAlias alias="LinkedHashMap" type="java.util.LinkedHashMap" />
+        <typeAlias alias="ArrayList" type="java.util.ArrayList" />
+        <typeAlias alias="LinkedList" type="java.util.LinkedList" />
+    </typeAliases>-->
+
+    <!-- Continue going here -->
+<!--    &lt;!&ndash;配置拦截器插件&ndash;&gt;
+    <plugins>
+        &lt;!&ndash; com.github.pagehelper为PageHelper类所在包名 &ndash;&gt;
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            &lt;!&ndash; 使用下面的方式配置参数，后面会有所有的参数介绍 &ndash;&gt;
+            <property name="helperDialect" value="mysql"/>
+            <property name="reasonable" value="true"/>
+        </plugin>
+    </plugins>-->
+
+</configuration>

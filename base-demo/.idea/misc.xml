@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/java_se_middle" />
+    <file type="web" url="file://$PROJECT_DIR$/spring_demo" />
+    <file type="web" url="file://$PROJECT_DIR$/springmvc" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/core/src/pom.xml" />
+        <option value="$PROJECT_DIR$/java-JDK1.8新特性-Date/pom.xml" />
+        <option value="$PROJECT_DIR$/Job/pom.xml" />
+        <option value="$PROJECT_DIR$/design_mode/pom.xml" />
+        <option value="$PROJECT_DIR$/javaSE中级/pom.xml" />
+        <option value="$PROJECT_DIR$/java-JDK1.8新特性/pom.xml" />
+        <option value="$PROJECT_DIR$/spring_cloud_demo/excel_demo/pom.xml" />
+        <option value="$PROJECT_DIR$/spring_cloud_demo/es/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/classes" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://desktop-7qknofk/svn/mySvn/springboot-demo" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+</project>

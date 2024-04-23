@@ -1,0 +1,32 @@
+server:
+  port: 81
+
+#springboot数据源配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/mybatis
+    username: root
+    password: w6127176w
+  application:
+    name: user-server
+
+eureka:
+  client:
+    register-with-eureka: true # 是否注册自己的信息到EurekaServer，默认是true
+    fetch-registry: true # 是否拉取其它服务的信息，默认是true
+    service-url: # EurekaServer的地址，现在是自己的地址，如果是集群，需要加上其它Server的地址。
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    # 服务下次续约的间隔时间,默认为30秒 比如: 19:00:00 注册  下一次续约时间: 19:00:30(定期发起请求,刷新自己的状态)
+    lease-renewal-interval-in-seconds: 30
+    # 服务失效时间，默认值90秒,如果90秒还没有续约,那么这个服务将失效,获取不到信息,但在Eureka注册中心中并没有立即剔除
+    lease-expiration-duration-in-seconds: 90
+    # 设置Eureka注册列表中UP值(instance-id)
+    instance-id: ${spring.application.name}:${server.port}
+
+
+
+
+
+

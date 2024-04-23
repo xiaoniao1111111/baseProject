@@ -1,0 +1,32 @@
+Zuul
+简述: zull的核心是一系列的监听器,当客户端发送请求服务端的时候,通过zuul进行鉴权,鉴权通过之后
+     从Eureka注册中心中拉取服务列表,然后动态路由的分配到具体服务器中
+步骤:
+    <1> 引入zull启动器
+    <2> 启动类上添加@EnableZuulProxy,添加@EnableDiscoveryClient
+    <3> 配置文件
+        1) 配置文件中配置zuul的端口号,应用名称,
+        2) 配置zuul路由及zuul前缀(目的是提速zuul)(配置:拦截路径及映射应用服务)
+        3) 配置定期从Eureka中获取服务列表配置及将自己的地址暴露给Erueka
+        4) 配置zuul的负载均衡和熔断
+    <4> 请求路径: localhost:10010/zuul服务名称/远程调用的请求路径
+
+1. zuul的过滤器
+   简述: 功能类似于spring拦截器
+   场景:
+   请求鉴权: 在pre类型中,进行鉴权,是否登录,是否有访问权限
+   异常处理: 在error和post类型过滤器中使用
+   服务调时统计: pre和post结合使用
+
+2. 步骤:
+        <1> 创建一个自定义拦截器,继承ZuulFilter
+        <2> 复写里面的方法
+            1) filterType: 返回一个过滤器类型,用来表示当前过滤器类型
+                类型包含:
+                pre: 在请求被路由之前调用
+                routing: 请求路由时调用
+                post: 在routing和error之后调用
+                error: 在请求调用时发生错误调用
+            2) filterOrder: 返回一个数值,用来指定过滤器的优先级,数值越小优先级越高
+            3) shouldFilter: 返回一个boolean值,表示是否执行过滤器中的业务逻辑,true执行,false不执行
+            4) run: 编写过滤器的业务逻辑

@@ -1,0 +1,14 @@
+Map
+定义: 以key,value的形式将元素存储起来,并对象之间建立相互关系,key不能重复,但value可以重复多次
+注意: Map的key可以为null,但只能存在一个,value也可以为null,可以重复
+Map与Collection区别:
+<1> Collection每次存储一个对象,Map每次存储两个单列集合
+<2> Collection是单列集合,Map是双列集合
+<3> Collection通过set保持元素唯一,Map通过key保持元素唯一
+<4> Collection对象之间没有关系,Map通过key和value的方式建立关系
+<5> Collection的数据结构针对的是整个元素,而Map的数据结构是针对键而言的
+<6> Collection是单列集合的顶级接口,Map是双列集合的顶级接口
+
+Map有两个子类: hashMap和linkedHashMap
+hashMap: 底层采用哈希表结构
+linkedHashMap: 底层采用哈希表和链表
